@@ -1,4 +1,4 @@
-package io.rcw.chromajdk.sdk.razer;
+package io.rcw.chromajdk.sdk.razer.effects;
 
 import java.awt.Color;
 
