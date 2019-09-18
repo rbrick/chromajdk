@@ -4,9 +4,9 @@ import com.sun.jna.*;
 import io.rcw.chromajdk.sdk.razer.ChromaKeyboardEffectType;
 
 public interface NativeChromaSDK extends Library {
-    NativeLong Init();
+    void Init();
 
-    NativeLong UnInit();
+    void UnInit();
 
-    NativeLong CreateKeyboardEffect(ChromaKeyboardEffectType effectType, Pointer effect, Pointer effectId);
+    void CreateKeyboardEffect(ChromaKeyboardEffectType effectType, Pointer effect, Pointer effectId);
 }
