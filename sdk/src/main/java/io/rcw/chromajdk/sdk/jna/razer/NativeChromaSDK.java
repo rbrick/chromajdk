@@ -1,12 +1,15 @@
 package io.rcw.chromajdk.sdk.jna.razer;
 
-import com.sun.jna.*;
-import io.rcw.chromajdk.sdk.razer.ChromaKeyboardEffectType;
+import com.sun.jna.Library;
+import com.sun.jna.Pointer;
+import com.sun.jna.platform.win32.Guid;
 
 public interface NativeChromaSDK extends Library {
-    void Init();
+   int Init();
 
-    void UnInit();
+   int UnInit();
 
-    void CreateKeyboardEffect(ChromaKeyboardEffectType effectType, Pointer effect, Pointer effectId);
+   int CreateKeyboardEffect(int type, Pointer effect, Pointer effectId);
+
+   int SetEffect(Guid.GUID effectId);
 }

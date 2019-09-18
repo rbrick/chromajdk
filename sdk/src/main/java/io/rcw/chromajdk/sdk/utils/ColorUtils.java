@@ -5,9 +5,7 @@ import java.awt.Color;
 public final class ColorUtils {
 
     public static int getBGR(Color color) {
-        return (color.getRed() & 0xFF) |
-                (color.getGreen() & 0xFF) << 8 |
-                (color.getBlue() & 0xFF) << 16;
+        return (color.getBlue() & 0xFF) << 16 | (color.getGreen() & 0xFF) << 8 | (color.getRed() & 0xFF);
 
     }
 
