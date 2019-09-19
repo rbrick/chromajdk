@@ -4,11 +4,11 @@ import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
 import com.sun.jna.platform.win32.Guid;
-import io.rcw.chromajdk.sdk.jna.razer.NativeChromaSDK;
-import io.rcw.chromajdk.sdk.jna.razer.structs.NativeStaticEffect;
-import io.rcw.chromajdk.sdk.jna.razer.structs.NativeWaveEffect;
-import io.rcw.chromajdk.sdk.razer.ChromaKeyboardEffectType;
-import io.rcw.chromajdk.sdk.razer.effects.WaveEffect;
+import io.rcw.chromajdk.sdk.internals.jna.razer.NativeChromaSDK;
+import io.rcw.chromajdk.sdk.internals.jna.razer.structs.NativeStaticEffect;
+import io.rcw.chromajdk.sdk.internals.jna.razer.structs.NativeWaveEffect;
+import io.rcw.chromajdk.sdk.internals.razer.ChromaKeyboardEffectType;
+import io.rcw.chromajdk.sdk.internals.razer.effects.WaveEffect;
 import io.rcw.chromajdk.sdk.utils.ColorUtils;
 
 import java.awt.Color;
@@ -28,7 +28,6 @@ public class Test {
 
         System.out.println(ColorUtils.fromBGR(ColorUtils.getBGR(Color.PINK)));
 
-
         Structure waveEffectRL = new NativeWaveEffect(WaveEffect.WaveDirection.RIGHT_TO_LEFT).toStructure();
 
         waveEffectRL.write();
@@ -46,11 +45,7 @@ public class Test {
         staticEffect.write();
 
 
-
-
-
-        Runtime.getRuntime().addShutdownHook(new Thread(() ->
-                INSTANCE.UnInit()));
+        Runtime.getRuntime().addShutdownHook(new Thread(INSTANCE::UnInit));
 
         long currentTime = System.currentTimeMillis();
         int currentIdx = 0;
@@ -61,7 +56,7 @@ public class Test {
             if (System.currentTimeMillis() - currentTime >= 5000) {
                 currentTime = System.currentTimeMillis();
 
-                INSTANCE.CreateKeyboardEffect(ChromaKeyboardEffectType.WAVE.ordinal(), options[ currentIdx++ % options.length  ].getPointer(), Pointer.NULL);
+                INSTANCE.CreateKeyboardEffect(ChromaKeyboardEffectType.WAVE.ordinal(), options[currentIdx++ % options.length].getPointer(), Pointer.NULL);
             }
         }
 

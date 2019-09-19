@@ -1,4 +1,4 @@
-package io.rcw.chromajdk.sdk.razer.effects;
+package io.rcw.chromajdk.sdk.internals.razer.effects;
 
 public interface WaveEffect {
 

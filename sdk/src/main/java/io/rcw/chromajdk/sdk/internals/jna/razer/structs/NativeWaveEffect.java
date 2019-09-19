@@ -1,8 +1,8 @@
-package io.rcw.chromajdk.sdk.jna.razer.structs;
+package io.rcw.chromajdk.sdk.internals.jna.razer.structs;
 
 import com.sun.jna.Structure;
-import io.rcw.chromajdk.sdk.jna.razer.NativeEffect;
-import io.rcw.chromajdk.sdk.razer.effects.WaveEffect;
+import io.rcw.chromajdk.sdk.internals.jna.razer.NativeEffect;
+import io.rcw.chromajdk.sdk.internals.razer.effects.WaveEffect;
 
 public final class NativeWaveEffect implements WaveEffect, NativeEffect {
 

@@ -1,4 +1,4 @@
-package io.rcw.chromajdk.sdk.jna.razer;
+package io.rcw.chromajdk.sdk.internals.jna.razer;
 
 import com.sun.jna.Structure;
 

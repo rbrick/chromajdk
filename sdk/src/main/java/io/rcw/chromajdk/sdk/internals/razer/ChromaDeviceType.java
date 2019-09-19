@@ -1,4 +1,4 @@
-package io.rcw.chromajdk.sdk.razer;
+package io.rcw.chromajdk.sdk.internals.razer;
 
 public enum ChromaDeviceType {
 
