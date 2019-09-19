@@ -168,4 +168,15 @@ public enum CorsairKey {
         this.id = key.id;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public static CorsairKey fromId(int id) {
+        for (CorsairKey key : values()) {
+            if (id == key.getId())
+                return key;
+        }
+        return null;
+    }
 }

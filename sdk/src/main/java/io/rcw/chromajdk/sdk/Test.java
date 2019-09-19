@@ -1,64 +1,84 @@
 package io.rcw.chromajdk.sdk;
 
 import com.sun.jna.Native;
-import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
-import com.sun.jna.platform.win32.Guid;
-import io.rcw.chromajdk.sdk.internals.jna.razer.NativeChromaSDK;
-import io.rcw.chromajdk.sdk.internals.jna.razer.structs.NativeStaticEffect;
+import io.rcw.chromajdk.sdk.internals.corsair.CorsairKey;
+import io.rcw.chromajdk.sdk.internals.corsair.led.CorsairLedColor;
+import io.rcw.chromajdk.sdk.internals.corsair.led.CorsairLedPosition;
+import io.rcw.chromajdk.sdk.internals.jna.corsair.NativeCUESDK;
+import io.rcw.chromajdk.sdk.internals.jna.corsair.led.CorsairLedPositions;
 import io.rcw.chromajdk.sdk.internals.jna.razer.structs.NativeWaveEffect;
-import io.rcw.chromajdk.sdk.internals.razer.ChromaKeyboardEffectType;
-import io.rcw.chromajdk.sdk.internals.razer.effects.WaveEffect;
-import io.rcw.chromajdk.sdk.utils.ColorUtils;
+import io.rcw.chromajdk.sdk.internals.razer.RazerChromaKeyboard;
+import io.rcw.chromajdk.sdk.internals.razer.effects.RazerWaveEffect;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Test {
 
     public static void main(String[] args) {
-        System.load("C:\\Program Files\\Razer Chroma SDK\\bin\\RzChromaSDK64.dll");
-
-        NativeChromaSDK INSTANCE = Native.load("RzChromaSDK64", NativeChromaSDK.class);
-        System.out.println(INSTANCE.Init());
+//        System.load("C:\\Program Files\\Razer Chroma SDK\\bin\\RzChromaSDK64.dll");
 
 
-        Guid.GUID effectId = Guid.GUID.fromString("{00000000-0000-0000-0000-000000000000}");
+        razerTest();
 
-        effectId.write();
+        while (true) {}
+    }
 
-        System.out.println(ColorUtils.fromBGR(ColorUtils.getBGR(Color.PINK)));
+    public static void razerTest() {
+        ChromaDevice chromaKeyboard = new RazerChromaKeyboard();
 
-        Structure waveEffectRL = new NativeWaveEffect(WaveEffect.WaveDirection.RIGHT_TO_LEFT).toStructure();
+        chromaKeyboard.setEffect( new NativeWaveEffect(RazerWaveEffect.WaveDirection.LEFT_TO_RIGHT)  );
 
-        waveEffectRL.write();
+    }
 
-        Structure waveEffectLR = new NativeWaveEffect(WaveEffect.WaveDirection.LEFT_TO_RIGHT).toStructure();
-
-        waveEffectLR.write();
-
-
-        // 4 = Static Effect
-        // 5 = spectrum cycling
-        // 6 = Wave Effect
-        Structure staticEffect = new NativeStaticEffect(Color.RED).toStructure();
-
-        staticEffect.write();
+    public static void corsairTest() {
+        NativeCUESDK nativeCUESDK = Native.load("CUESDK.x64", NativeCUESDK.class);
 
 
-        Runtime.getRuntime().addShutdownHook(new Thread(INSTANCE::UnInit));
+        nativeCUESDK.CorsairPerformProtocolHandshake();
 
-        long currentTime = System.currentTimeMillis();
-        int currentIdx = 0;
-        Structure[] options = {waveEffectRL, waveEffectLR};
 
-        while (true) {
+        if (nativeCUESDK.CorsairGetDeviceCount() > 0) {
 
-            if (System.currentTimeMillis() - currentTime >= 5000) {
-                currentTime = System.currentTimeMillis();
+            CorsairLedPositions positions = nativeCUESDK.CorsairGetLedPositions();
 
-                INSTANCE.CreateKeyboardEffect(ChromaKeyboardEffectType.WAVE.ordinal(), options[currentIdx++ % options.length].getPointer(), Pointer.NULL);
+            List<CorsairLedColor> corsairLedColors = new ArrayList<CorsairLedColor>();
+
+            for (CorsairLedPosition.CorsairLedPositionStructure position : positions.pLedPositions) {
+                if (position.ledId == CorsairKey.CLK_A.getId()) {
+                    corsairLedColors.add(
+                            new CorsairLedColor(CorsairKey.CLK_A, Color.RED)
+                    );
+                } else if (position.ledId == CorsairKey.CLK_W.getId()) {
+                    corsairLedColors.add(
+                            new CorsairLedColor(CorsairKey.CLK_W, Color.GREEN)
+                    );
+                } else if (position.ledId == CorsairKey.CLK_D.getId()) {
+                    corsairLedColors.add(
+                            new CorsairLedColor(CorsairKey.CLK_D, Color.BLUE)
+                    );
+                } else if (position.ledId == CorsairKey.CLK_S.getId()) {
+                    corsairLedColors.add(
+                            new CorsairLedColor(CorsairKey.CLK_D, Color.MAGENTA)
+                    );
+                } else {
+                    corsairLedColors.add(
+                            new CorsairLedColor(CorsairKey.fromId(position.ledId), Color.PINK)
+                    );
+                }
+
+            }
+
+
+            CorsairLedColor.CorsairLedColorStructure array = new CorsairLedColor.CorsairLedColorStructure();
+
+            nativeCUESDK.CorsairSetLedsColors(array.size(), array.toArray(corsairLedColors.stream().map(CorsairLedColor::toStructure).collect(Collectors.toList()).toArray(new Structure[corsairLedColors.size()])));
+
+            while (true) {
             }
         }
-
     }
 }

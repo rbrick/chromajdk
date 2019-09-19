@@ -1,6 +1,8 @@
 package io.rcw.chromajdk.sdk.internals.razer.effects;
 
-public interface WaveEffect {
+import io.rcw.chromajdk.sdk.ChromaEffect;
+
+public interface RazerWaveEffect extends RazerEffect {
 
     enum WaveDirection {
         LEFT_TO_RIGHT,

@@ -1,14 +1,17 @@
 package io.rcw.chromajdk.sdk.internals.jna.razer.structs;
 
 import com.sun.jna.Structure;
+import io.rcw.chromajdk.sdk.Brand;
+import io.rcw.chromajdk.sdk.ChromaDevice;
 import io.rcw.chromajdk.sdk.internals.jna.razer.NativeEffect;
-import io.rcw.chromajdk.sdk.internals.razer.effects.StaticEffect;
+import io.rcw.chromajdk.sdk.internals.razer.RazerChromaDevice;
+import io.rcw.chromajdk.sdk.internals.razer.effects.RazerStaticEffect;
 import io.rcw.chromajdk.sdk.utils.ColorUtils;
 
 import java.awt.Color;
 
 
-public final class NativeStaticEffect implements StaticEffect, NativeEffect {
+public final class NativeStaticEffect implements RazerStaticEffect, NativeEffect {
 
     private Color color;
 
@@ -24,6 +27,13 @@ public final class NativeStaticEffect implements StaticEffect, NativeEffect {
     @Override
     public Color color() {
         return color;
+    }
+
+    @Override
+    public void apply(ChromaDevice device) {
+        if (device.getBrand() == Brand.RAZER) {
+            ((RazerChromaDevice) device).setStaticColor(color);
+        }
     }
 
     @Structure.FieldOrder({"color"})
