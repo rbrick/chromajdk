@@ -1,5 +1,6 @@
 package io.rcw.chromajdk.sdk.internals.corsair.led;
 
+import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
 import io.rcw.chromajdk.sdk.internals.corsair.CorsairKey;
 
@@ -16,6 +17,10 @@ public final class CorsairLedPosition {
             this.left = left;
             this.height = height;
             this.width = width;
+        }
+
+        public CorsairLedPositionStructure(Pointer peer) {
+            super(peer);
         }
     }
 

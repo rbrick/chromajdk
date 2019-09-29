@@ -80,13 +80,13 @@ public interface NativeCUESDK extends Library {
      * Original signature : <code>bool CorsairSetLedsColors(int, CorsairLedColor*)</code><br>
      * <i>native declaration : line 123</i>
      */
-    byte CorsairSetLedsColors(int size, Structure[] ledsColors);
+    byte CorsairSetLedsColors(int size, CorsairLedColor.CorsairLedColorStructure ledsColors);
 
     /**
      * Original signature : <code>bool CorsairSetLedsColorsAsync(int, CorsairLedColor*, CorsairSetLedsColorsAsync_CallbackType_callback*, void*)</code><br>
      * <i>native declaration : line 125</i>
      */
-    byte CorsairSetLedsColorsAsync(int size, Structure[] ledsColors, NativeCUESDK.CorsairSetLedsColorsAsync_CallbackType_callback CallbackType, Pointer context);
+    byte CorsairSetLedsColorsAsync(int size, CorsairLedColor.CorsairLedColorStructure ledsColors, NativeCUESDK.CorsairSetLedsColorsAsync_CallbackType_callback CallbackType, Pointer context);
 
     /**
      * Original signature : <code>int CorsairGetDeviceCount()</code><br>
@@ -105,6 +105,8 @@ public interface NativeCUESDK extends Library {
      * <i>native declaration : line 134</i>
      */
     CorsairLedPositions CorsairGetLedPositions();
+
+    CorsairLedPositions CorsairGetLedPositionsByDeviceIndex( int deviceIndex );
 
     /**
      * Original signature : <code>CorsairLedId CorsairGetLedIdForKeyName(char)</code><br>

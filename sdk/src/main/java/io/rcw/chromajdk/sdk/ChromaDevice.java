@@ -8,4 +8,8 @@ public interface ChromaDevice {
     void setEffect(ChromaEffect effect);
 
     Brand getBrand();
+
+    ChromaEffect getCurrentEffect();
+
+    void clearEffect();
 }
