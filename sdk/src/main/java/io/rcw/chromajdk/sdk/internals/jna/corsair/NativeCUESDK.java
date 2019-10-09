@@ -73,6 +73,11 @@ public interface NativeCUESDK extends Library {
         void apply(Pointer voidPtr1, byte bool1, int CorsairError1);
     }
 
+
+    public interface CorsairSetLedsColorsFlushBufferAsync_callback_callback extends Callback {
+        void apply(Pointer context, byte result, int error);
+    }
+
     ;
 
     /**
@@ -91,6 +96,8 @@ public interface NativeCUESDK extends Library {
     byte CorsairSetLedsColorsBufferByDeviceIndex(int deviceIndex, int size, CorsairLedColor.CorsairLedColorStructure ledsColors);
 
     byte CorsairSetLedsColorsFlushBuffer();
+
+    byte CorsairSetLedsColorsFlushBufferAsync(CorsairSetLedsColorsFlushBufferAsync_callback_callback cb, Pointer context);
 
     /**
      * Original signature : <code>int CorsairGetDeviceCount()</code><br>
