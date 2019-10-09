@@ -3,7 +3,6 @@ package io.rcw.chromajdk.sdk.internals.jna.corsair;
 import com.sun.jna.Callback;
 import com.sun.jna.Library;
 import com.sun.jna.Pointer;
-import com.sun.jna.Structure;
 import io.rcw.chromajdk.sdk.internals.corsair.device.CorsairDeviceInfo;
 import io.rcw.chromajdk.sdk.internals.corsair.led.CorsairLedColor;
 import io.rcw.chromajdk.sdk.internals.jna.corsair.led.CorsairLedPositions;
@@ -88,6 +87,11 @@ public interface NativeCUESDK extends Library {
      */
     byte CorsairSetLedsColorsAsync(int size, CorsairLedColor.CorsairLedColorStructure ledsColors, NativeCUESDK.CorsairSetLedsColorsAsync_CallbackType_callback CallbackType, Pointer context);
 
+
+    byte CorsairSetLedsColorsBufferByDeviceIndex(int deviceIndex, int size, CorsairLedColor.CorsairLedColorStructure ledsColors);
+
+    byte CorsairSetLedsColorsFlushBuffer();
+
     /**
      * Original signature : <code>int CorsairGetDeviceCount()</code><br>
      * <i>native declaration : line 128</i>
@@ -106,7 +110,7 @@ public interface NativeCUESDK extends Library {
      */
     CorsairLedPositions CorsairGetLedPositions();
 
-    CorsairLedPositions CorsairGetLedPositionsByDeviceIndex( int deviceIndex );
+    CorsairLedPositions CorsairGetLedPositionsByDeviceIndex(int deviceIndex);
 
     /**
      * Original signature : <code>CorsairLedId CorsairGetLedIdForKeyName(char)</code><br>
