@@ -43,14 +43,15 @@ public final class CorsairChromaSDK extends AbstractChromaSDK {
                         );
                     }
 
-                    this.setColors(corsairLedColors);
+                    this.setColors(i, corsairLedColors);
                 }
             }
         }
     }
 
-    public void setColors(List<CorsairLedColor> colors) {
-        nativeCUESDK.CorsairSetLedsColors(colors.size(), this.writeArray(colors));
+    public void setColors(int deviceIndex, List<CorsairLedColor> colors) {
+        nativeCUESDK.CorsairSetLedsColorsBufferByDeviceIndex(deviceIndex, colors.size(), this.writeArray(colors));
+        nativeCUESDK.CorsairSetLedsColorsFlushBufferAsync(null, null);
     }
 
     private CorsairLedColor.CorsairLedColorStructure writeArray(List<CorsairLedColor> corsairLedColors) {

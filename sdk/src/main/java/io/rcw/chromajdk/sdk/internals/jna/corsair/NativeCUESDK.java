@@ -3,7 +3,6 @@ package io.rcw.chromajdk.sdk.internals.jna.corsair;
 import com.sun.jna.Callback;
 import com.sun.jna.Library;
 import com.sun.jna.Pointer;
-import com.sun.jna.Structure;
 import io.rcw.chromajdk.sdk.internals.corsair.device.CorsairDeviceInfo;
 import io.rcw.chromajdk.sdk.internals.corsair.led.CorsairLedColor;
 import io.rcw.chromajdk.sdk.internals.jna.corsair.led.CorsairLedPositions;
@@ -74,6 +73,11 @@ public interface NativeCUESDK extends Library {
         void apply(Pointer voidPtr1, byte bool1, int CorsairError1);
     }
 
+
+    public interface CorsairSetLedsColorsFlushBufferAsync_callback_callback extends Callback {
+        void apply(Pointer context, byte result, int error);
+    }
+
     ;
 
     /**
@@ -87,6 +91,13 @@ public interface NativeCUESDK extends Library {
      * <i>native declaration : line 125</i>
      */
     byte CorsairSetLedsColorsAsync(int size, CorsairLedColor.CorsairLedColorStructure ledsColors, NativeCUESDK.CorsairSetLedsColorsAsync_CallbackType_callback CallbackType, Pointer context);
+
+
+    byte CorsairSetLedsColorsBufferByDeviceIndex(int deviceIndex, int size, CorsairLedColor.CorsairLedColorStructure ledsColors);
+
+    byte CorsairSetLedsColorsFlushBuffer();
+
+    byte CorsairSetLedsColorsFlushBufferAsync(CorsairSetLedsColorsFlushBufferAsync_callback_callback cb, Pointer context);
 
     /**
      * Original signature : <code>int CorsairGetDeviceCount()</code><br>
@@ -106,7 +117,7 @@ public interface NativeCUESDK extends Library {
      */
     CorsairLedPositions CorsairGetLedPositions();
 
-    CorsairLedPositions CorsairGetLedPositionsByDeviceIndex( int deviceIndex );
+    CorsairLedPositions CorsairGetLedPositionsByDeviceIndex(int deviceIndex);
 
     /**
      * Original signature : <code>CorsairLedId CorsairGetLedIdForKeyName(char)</code><br>
